@@ -206,58 +206,65 @@ def get_election_data_from_url(url: str) -> dict:
                                             "div"
                                         )
                                         # 個人情報
-                                        election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_list[
-                                            1
-                                        ]
-                                        if (
-                                            election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag
-                                            is not None
-                                        ):
-                                            election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_p_tag_list = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag.find_all(
+                                        try:
+                                            election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_list[
+                                                1
+                                            ]
+                                            if (
+                                                election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag
+                                                is not None
+                                            ):
+                                                election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_p_tag_list = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag.find_all(
+                                                    "p"
+                                                )
+
+                                                election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_p_tag_span_tag_list = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_p_tag_list[
+                                                    0
+                                                ].find_all(
+                                                    "span"
+                                                )
+                                                # 年齢-性別
+                                                election_data[
+                                                    "winner_age_sex"
+                                                ] = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_p_tag_span_tag_list[
+                                                    0
+                                                ].text.strip(
+                                                    " "
+                                                )
+                                                # 現職
+                                                election_data[
+                                                    "winner_info"
+                                                ] = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_p_tag_span_tag_list[
+                                                    1
+                                                ].text.strip(
+                                                    " "
+                                                )
+                                                # 職業
+                                                election_data[
+                                                    "winner_job"
+                                                ] = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_p_tag_list[
+                                                    1
+                                                ].text.strip(
+                                                    " "
+                                                )
+                                            # 所属
+                                            election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_list[
+                                                0
+                                            ]
+                                            election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_p_tag = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag.find(
                                                 "p"
                                             )
+                                            election_data[
+                                                "affiliation"
+                                            ] = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_p_tag.text.strip(
+                                                " "
+                                            )
+                                        except IndexError:
+                                            election_data["winner_age_sex"] = "UnKnown"
+                                            election_data["winner_info"] = "UnKnown"
+                                            election_data["winner_job"] = "UnKnown"
+                                            election_data["affiliation"] = "UnKnown"
 
-                                            election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_p_tag_span_tag_list = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_p_tag_list[
-                                                0
-                                            ].find_all(
-                                                "span"
-                                            )
-                                            # 年齢-性別
-                                            election_data[
-                                                "winner_age_sex"
-                                            ] = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_p_tag_span_tag_list[
-                                                0
-                                            ].text.strip(
-                                                " "
-                                            )
-                                            # 現職
-                                            election_data[
-                                                "winner_info"
-                                            ] = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_p_tag_span_tag_list[
-                                                1
-                                            ].text.strip(
-                                                " "
-                                            )
-                                            # 職業
-                                            election_data[
-                                                "winner_job"
-                                            ] = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_p_tag_list[
-                                                1
-                                            ].text.strip(
-                                                " "
-                                            )
-                                        # 所属
-                                        election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_list[
-                                            0
-                                        ]
-                                        election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_p_tag = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag.find(
-                                            "p"
-                                        )
-                                        election_data[
-                                            "affiliation"
-                                        ] = election_result_winner_table_tag_tr_tag_td_tag_section_tag_div_tag_div_tag_div_tag_p_tag.text.strip(
-                                            " "
-                                        )
                             # 票数
                             election_data["winner_votes"] = election_result_winner_table_tag_tr_tag_td_tag_list[
                                 2
@@ -284,9 +291,7 @@ def main():
             election_data: dict = get_election_data_from_url(url)
             election_data_array.append(election_data)
         df = pd.DataFrame(election_data_array)
-        df.to_csv(f"../out/{month}/{year}_{month}.csv", index=False, encoding="utf-8")
-
-
+        df.to_csv(f"../out/{year}_{month}.csv", index=False, encoding="utf-8")
 
 
 if __name__ == "__main__":
